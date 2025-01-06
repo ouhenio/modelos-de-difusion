@@ -3,6 +3,21 @@ marp: true
 theme: default
 math: mathjax
 style: |
+  section {
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 1em;
+  }
+  .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+    width: 100%;
+    height: 100%;
+  }
   .columns {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -22,9 +37,22 @@ style: |
   }
   .theorem {
     background-color: #f0f7ff;
-    padding: 1em;
+    padding: 0.5em;
     margin: 1em 0;
     border-left: 3px solid #234876;
+  }
+  .image-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1em 0;
+  }
+  .citation {
+    font-size: 0.7em;
+    color: #666;
+    margin-top: 0.5em;
+    text-align: center;
+    max-width: 80%;
   }
 paginate: true
 backgroundColor: #fff
@@ -32,10 +60,59 @@ backgroundColor: #fff
 
 <!-- _class: lead -->
 # Modelos de Difusión
-## From Theory to Implementation
+## Diplomado Universidad de Tarapacá
 
 Eugenio Herrera-Berg
 Centro Nacional de Inteligencia Artificial
+
+---
+
+# Repaso: Modelos Generativos
+
+Aprenden a representar una distribución.
+
+<div class="theorem">
+Es decir, dado:
+
+- Dataset $X = \{x_{1}, x_{2}, ..., x_{n}\}$, cuya distribución instrínseca desconocida es $p\_data(x)$
+- Una distribución paramétrica $p\_{\theta}(x)$
+
+Buscamos encontrar los parámetros $\theta^{*}$ tales que:
+
+$\theta^{*} = min \ D(p\_data || p\_{\theta})$
+
+Donde $D$ representa alguna métrica de distancia o divergencia entre distribuciones.
+</div>
+
+---
+
+# Modelos Generativos
+
+<div class="content">
+
+- GPTs
+- **Generative Adversarial Networks**
+- Variational Autoencoders
+
+</div>
+
+---
+
+# Generative Adversarial Networks
+
+![alt text](assets/images/002.png)
+
+---
+
+# Fortalezas GANs
+
+![alt text](assets/images/002.png)
+
+---
+
+# Debilidades GANs
+
+![alt text](assets/images/002.png)
 
 ---
 
@@ -48,64 +125,78 @@ Centro Nacional de Inteligencia Artificial
 
 ---
 
-# What are Diffusion Models?
+# ¿Qué son los Modelos de Difusión?
 
-<div class="columns">
-<div>
+<div class="content">
 
-- Generative models based on reversing a diffusion process
-- Learn to denoise data iteratively
-- Applications:
-  - Image generation
-  - Audio synthesis
-  - 3D modeling
+_"Crear ruido desde los datos es fácil;
+crear datos desde ruido es modelamiento generativo."_
+
+Song et.al. 2020
 
 </div>
-<div>
 
-<!-- Replace with your video -->
-<video controls width="100%">
-  <source src="./assets/intro_animation.mp4" type="video/mp4">
-</video>
+---
+
+# ¿Qué son los Modelos de Difusión?
+
+<div class="content">
+
+_"Crear ruido desde los datos es fácil;
+crear datos desde ruido es modelamiento generativo."_
+
+Song et.al. 2020
+
+<div class="image-container">
+
+![width:100%px](assets/images/001.png)
+
+<span class="citation">Denoising Diffusion Probabilistic Models, 2020</span>
 
 </div>
 </div>
 
 ---
 
-# Mathematical Foundation
+# Proceso Directo (Forward Process)
+
+<div class="content">
 
 <div class="theorem">
 
-The forward diffusion process can be described as:
+El proceso de difusión puede ser descrito como:
 
 $q(x_t|x_{t-1}) = \mathcal{N}(x_t; \sqrt{1-\beta_t}x_{t-1}, \beta_t\mathbf{I})$
 
-where:
-- $x_t$ is the noisy image at timestep $t$
-- $\beta_t$ is the noise schedule
-- $\mathcal{N}$ denotes the normal distribution
+donde:
+- $x_t$ es la imagen con ruido en el paso $t$
+- $\beta_t$ es el planificador de ruido (_noise scheduler_)
+- $\mathcal{N}$ denota una distribución normal
 
 </div>
-
-<!-- Replace with your demonstration video -->
-<video controls width="60%" style="display: block; margin: auto;">
-  <source src="./assets/noise_process.mp4" type="video/mp4">
-</video>
+</div>
 
 ---
 
-# Forward Process Equations
+### Ecuaciones del Proceso Directo (Forward Process)
 
-The complete forward process can be written as:
+<div class="content">
+
+El proceso directo completo puede escribirse como:
 
 $$q(x_{1:T}|x_0) = \prod_{t=1}^T q(x_t|x_{t-1})$$
 
-With reparameterization:
+Con reparametrización:
 
 $$x_t = \sqrt{\alpha_t}x_0 + \sqrt{1-\alpha_t}\epsilon$$
 
-where $\epsilon \sim \mathcal{N}(0, \mathbf{I})$
+donde
+
+  - $\epsilon \sim \mathcal{N}(0, \mathbf{I})$
+  - $\alpha_t = 1 - \beta_t$
+  - $\bar{\alpha}_t = \prod_{i=1}^t \alpha_i$
+
+</div>
 
 ---
 
@@ -132,9 +223,9 @@ class DiffusionModel(nn.Module):
 
 <div class="center">
 <!-- Replace with your training visualization -->
-<video controls width="80%">
+<!-- <video controls width="80%">
   <source src="./assets/training.mp4" type="video/mp4">
-</video>
+</video> -->
 </div>
 
 ---
@@ -154,7 +245,7 @@ Generated samples at different timesteps:
 
 <!-- Replace with your generation video -->
 <video controls width="100%">
-  <source src="./assets/generation.mp4" type="video/mp4">
+  <source src="assets/videos/DiffusionProcess.mp4" type="video/mp4">
 </video>
 
 </div>
@@ -173,11 +264,18 @@ Generated samples at different timesteps:
 ---
 
 <!-- _class: lead -->
-# Thank You!
+# Gracias!
 
-## Questions?
+## Preguntas?
 
-GitHub: your-username
-Email: your.email@example.com
+GitHub: ouhenio
+Email: eugenio.herrera@cenia.cl
 
 ---
+
+# Referencias
+Esta presentación está **fuertemente** inspirada por:
+
+- [El material de las clases de modelos de Difusión de IE University](https://github.com/julioasotodv/ie-c4-466671-diffusion-models)
+- [Denoising Autoencoders | Deep Learning Animated](https://www.youtube.com/watch?v=0V96wE7lY4w)
+- El siguiente video
