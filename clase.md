@@ -68,9 +68,9 @@ Centro Nacional de Inteligencia Artificial
 
 # ¿Qué es un modelo generativo?
 
-<div class="content">
+<div class="content center">
 
-Aprenden a representar una distribución.
+Es un modelo que busca aprender a representar una distribución.
 
 </div>
 
@@ -78,7 +78,7 @@ Aprenden a representar una distribución.
 
 # ¿Qué es un modelo generativo?
 
-Aprenden a representar una distribución.
+Es un modelo que busca aprender a representar una distribución.
 
 <div class="theorem">
 Es decir, dado:
@@ -119,19 +119,54 @@ Donde $D$ representa alguna métrica de distancia o divergencia entre distribuci
 
 # Generative Adversarial Networks
 
+<div class="content">
+
 ![alt text](assets/images/002.png)
+
+</div>
 
 ---
 
 # Fortalezas GANs
 
-![alt text](assets/images/002.png)
+<div class="columns">
+
+<div class="content">
+
+- Generación de datos sintéticos de alta calidad.
+- Rápida generación de imágenes.
+</div>
+<div class="center">
+
+![height:500](assets/images/003.jpg)
+
+</div>
+</div>
 
 ---
 
 # Debilidades GANs
 
-![alt text](assets/images/002.png)
+<div class="content center">
+
+![width:700](assets/images/005.png)
+
+Dificultad en aprender grandes distribuciones.
+</div>
+
+
+---
+# ¿Por qué no basta con sólo GANs?
+
+---
+# ¿Por qué no basta con sólo GANs?
+
+
+<div class="content">
+
+![height:500](assets/images/004.png)
+
+</div>
 
 ---
 
@@ -150,7 +185,7 @@ Donde $D$ representa alguna métrica de distancia o divergencia entre distribuci
 
 # ¿Qué son los Modelos de Difusión?
 
-<div class="content">
+<div class="content center">
 
 _"Crear ruido desde los datos es fácil;
 crear datos desde ruido es modelamiento generativo."_
@@ -165,31 +200,92 @@ Song et.al. 2020
 
 <div class="content">
 
-_"Crear ruido desde los datos es fácil;
-crear datos desde ruido es modelamiento generativo."_
-
-Song et.al. 2020
-
 <div class="image-container">
 
 ![width:100%px](assets/images/001.png)
 
-<span class="citation">Denoising Diffusion Probabilistic Models, 2020</span>
+<span class="citation">Denoising Diffusion Probabilistic Models [DDPM], 2020</span>
 
 </div>
 </div>
 
 ---
 
-# Proceso Directo (Forward Process)
+# Denoising Diffusion Probabilistic Models (DDPMs)
 
 <div class="content">
 
+<div class="image-container">
+
+DDPMs generan imágenes de forma progresiva a partir de ruido
+![width:100%px](assets/images/007.PNG)
+
+<span class="citation">Denoising Diffusion Probabilistic Models [DDPM], 2020</span>
+
+</div>
+</div>
+
+
+
+---
+
+# Denoising Diffusion Probabilistic Models (DDPMs)
+
+<div class="content">
+
+Para lograr que un modelo aprenda a generar imágenes a partir de ruido, necesitamos pares de entrenamiento en la forma de (ruido, imágenes).
+
+Llamaremos al proceso que crea estos pares de entrenamiento **Forward Process**, encargado de convertir imágenes reales, en imágenes progresivamente más ruidosas.
+
+![width:100%px](assets/images/006.PNG)
+
+</div>
+
+---
+
+# Denoising Diffusion Probabilistic Models (DDPMs)
+
+<div class="content">
+
+Nuestro modelo generativo aprendererá a revertir este proceso (**Reverse Diffusion Process**). Es decir, progresivamente revertir el ruido de una imagen.
+
+![width:100%px](assets/images/007.PNG)
+
+Una vez entrenado correctamente, el modelo contará con la capacidad recibir una imagen de ruido, y convertirla en una "real". En otras palabras, ¡generará imágenes desde puro ruido!
+
+</div>
+
+---
+
+# Denoising Diffusion Probabilistic Models (DDPMs)
+
+<div class="content">
+
+De manera más formal, los DDPMs iteran sobre $t$ pasos desde $0,1,...,T$
+
+![width:100%px](assets/images/001.png)
+
+- $x_0$ es la imagen original
+- $q(x_t|x_{t-1})$ es el forward process
+- $p_{\theta}(x_{t-1}|x_t)$ es el reverse diffusion process (aprendido por nuestro modelo con parámetros $\theta$)
+
+</div>
+
+---
+
+# Forward Process
+
+<div class="content">
+<div class="center">
+
+![width:900px](assets/images/forward_process.png)
+
+</div>
 <div class="theorem">
 
 El proceso de difusión puede ser descrito como:
 
-$q(x_t|x_{t-1}) = \mathcal{N}(x_t; \sqrt{1-\beta_t}x_{t-1}, \beta_t\mathbf{I})$
+$$q(x_t|x_{t-1}) = \mathcal{N}(x_t; \sqrt{1-\beta_t}x_{t-1}, \beta_t\mathbf{I})$$
 
 donde:
 - $x_t$ es la imagen con ruido en el paso $t$
@@ -201,7 +297,7 @@ donde:
 
 ---
 
-### Ecuaciones del Proceso Directo (Forward Process)
+# Forward Process
 
 <div class="content">
 
@@ -209,7 +305,7 @@ El proceso directo completo puede escribirse como:
 
 $$q(x_{1:T}|x_0) = \prod_{t=1}^T q(x_t|x_{t-1})$$
 
-Con reparametrización:
+y con el truco de reparametrización:
 
 $$x_t = \sqrt{\alpha_t}x_0 + \sqrt{1-\alpha_t}\epsilon$$
 
@@ -223,23 +319,51 @@ donde
 
 ---
 
-# Implementation Details
+# Truco de reparametrización
 
-```python
-class DiffusionModel(nn.Module):
-    def __init__(self, device):
-        super().__init__()
-        self.device = device
-        self.network = UNet(
-            dim=64,
-            channels=3,
-            dim_mults=(1, 2, 4, 8)
-        )
+<div class="content">
 
-    def forward(self, x, t):
-        return self.network(x, t)
-```
+y con el truco de reparametrización:
 
+$$x_t = \sqrt{\alpha_t}x_0 + \sqrt{1-\alpha_t}\epsilon$$
+
+<div class="center">
+
+![width:900px](assets/images/ddpm_paper_nice_property.png)
+
+</div>
+</div>
+
+---
+
+# Forward Process
+
+<div class="center">
+
+<video controls width="90%">
+  <source src="assets/videos/DiffusionProcess.mp4" type="video/mp4">
+</video>
+
+</div>
+
+---
+
+# Reverse process
+
+<div class="center">
+
+![width:900px](assets/images/reverse_process.png)
+
+</div>
+
+El proceso inverso puede ser descrito como:
+$$p_\theta(x_{t-1}|x_t) = \mathcal{N}(x_{t-1}; \mu_\theta(x_t,t), \Sigma_\theta(x_t,t))$$
+
+donde:
+- $x_t$ es la imagen con ruido en el paso $t$
+- $\mu_\theta$ es la media de ruido predicha por la red neuronal 
+- $\Sigma_\theta$ es la varianza de ruido predicha
+- $\theta$ son los parámetros del modelo
 ---
 
 # Training Process Visualization
