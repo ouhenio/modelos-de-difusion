@@ -29,9 +29,6 @@ style: |
   .center {
     text-align: center;
   }
-  section {
-    background-color: #ffffff;
-  }
   h1 {
     color: #234876;
   }
@@ -55,19 +52,31 @@ style: |
     max-width: 80%;
   }
 paginate: true
-backgroundColor: #fff
 ---
 
-<!-- _class: lead -->
+<div class="content">
+
 # Modelos de Difusión
 ## Diplomado Universidad de Tarapacá
 
 Eugenio Herrera-Berg
 Centro Nacional de Inteligencia Artificial
 
+</div>
+
 ---
 
-# Repaso: Modelos Generativos
+# ¿Qué es un modelo generativo?
+
+<div class="content">
+
+Aprenden a representar una distribución.
+
+</div>
+
+---
+
+# ¿Qué es un modelo generativo?
 
 Aprenden a representar una distribución.
 
@@ -79,14 +88,24 @@ Es decir, dado:
 
 Buscamos encontrar los parámetros $\theta^{*}$ tales que:
 
-$\theta^{*} = min \ D(p\_data || p\_{\theta})$
+$\theta^{*} = min \ D(p\_data \ || \  p\_{\theta})$
 
 Donde $D$ representa alguna métrica de distancia o divergencia entre distribuciones.
 </div>
 
 ---
 
-# Modelos Generativos
+# ¿Qué es un modelo generativo?
+
+<div class="content">
+
+![alt text](image.png)
+
+</div>
+
+---
+
+# Ejemplos de modelos generativos
 
 <div class="content">
 
@@ -118,10 +137,14 @@ Donde $D$ representa alguna métrica de distancia o divergencia entre distribuci
 
 # Overview
 
+<div class="content">
+
 1. Introduction to Diffusion Models
 2. Mathematical Foundation
 3. Implementation Details
 4. Results and Applications
+
+</div>
 
 ---
 
