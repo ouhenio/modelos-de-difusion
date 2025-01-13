@@ -68,31 +68,15 @@ Centro Nacional de Inteligencia Artificial
 
 # Overview
 
-<div class="columns">
+<div class="content">
 
-<div>
 
-1. Generación Condicional
-   1.1 Classifier Guidance
-   1.2 Classifier-free Guidance
-2. Large Difusion Models
-   2.1 Dalle
-   2.2 CLIP y sus concecuencias
-   2.2 Latent Diffusion
-   2.3 Dalle-2
-   2.3 Imagen
-   2.4 Flux
-  
-</div>
-<div>
+1. Comparación GANs vs VAEs vs Difusión
+2. Generación Condicional
+3. Precursores text-to-img
+4. Large Difusion Models
+5. Avances en Manipulación
 
-3. Avances en Manipulación
-   3.1 Textual Inversion
-   3.2 Null-text Inversion
-   3.3 Dreambooth
-   3.4 ControlNet
-
-</div>
 </div>
 
 ---
@@ -195,20 +179,6 @@ donde:
 <div class="center content">
 
 ![width:1000px](assets/images/classifier_free_guidance.png)
-
-</div>
-
----
-
-# Large Diffusion Models
-
-<div class="content">
-
-- DALL-E
-- Stable Diffusion (Latent Diffusion)
-- DALL-E 2
-- Imagen
-- Flux
 
 </div>
 
@@ -318,7 +288,20 @@ Todo esto ocurre en twitter y discord, donde comparten tips, y finalmente logran
 
 ---
 
-# Latent Diffusion (2021)
+# Large Diffusion Models
+
+<div class="content">
+
+- Stable Diffusion (Latent Diffusion)
+- DALL-E 2
+- Imagen
+- Flux
+
+</div>
+
+---
+
+# (Stable) Latent Diffusion (2021)
 
 <div class="content">
 
@@ -334,7 +317,7 @@ Durante esta fiebre de experimentación open source, un departamento de la Unive
 
 ---
 
-# Latent Diffusion (2021)
+# (Stable) Latent Diffusion (2021)
 
 
 <div class="content">
